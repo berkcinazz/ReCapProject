@@ -1,5 +1,6 @@
 ﻿using Business.Concrete;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using System;
@@ -11,20 +12,29 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            Car car = new Car { CarId = 1, BrandId = 1, ColorId = 1, DailyPrice = 585, ModelYear = 2020, Description = "If u wanna some speed choose this one." };
+            Car car = new Car { CarId = 1, BrandId = 2, ColorId = 3, DailyPrice = 8000, ModelYear = 2021, Description = "Ferrari" };
 
-            CarManager carManager = new CarManager(new InMemoryCarDalManager());
-            carManager.AddCar(car);
-            carManager.DeleteCar(car);
+            CarManager carManager = new CarManager(new EfCarDalManager());
+            //carManager.AddCar(car);
+            //carManager.DeleteCar(car);
             foreach (var carr in carManager.GetAllCars())
             {
-                Console.WriteLine(carr.CarId + " Id'li araba");
+                Console.WriteLine(carr.Description + " isimli araba");
             }
-            foreach (var car1 in carManager.GetCarsById(2))
+            foreach (var car1 in carManager.GetCarsByBrandId(2))
             {
-                Console.WriteLine("Seçtiğiniz arabanın günlük fiyatı: " + car1.DailyPrice);
+                Console.WriteLine("Seçtiğiniz araba marka idsine sahip arabalar : " + car1.Description);
             }
-            carManager.UpdateCar(car);
+            foreach (var car1 in carManager.GetCarsByColorId(2))
+            {
+                Console.WriteLine("Seçtiğiniz araba renk idsine sahip arabalar: " + car1.Description);
+            }
+            foreach (var car1 in carManager.GetCarsById(1))
+            {
+                Console.WriteLine("Seçtiğiniz araba idsine göre araba : " + car1.Description);
+            }
+
+            //carManager.UpdateCar(car);
             Console.WriteLine("Hello World!");
         }
     }

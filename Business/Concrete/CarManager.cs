@@ -22,13 +22,11 @@ namespace Business.Concrete
         public void AddCar(Car car)
         {
             _carDal.Add(car);
-            Console.WriteLine(car.ModelYear + " yılındaki araç eklendi");
         }
 
         public void DeleteCar(Car car)
         {
             _carDal.Delete(car);
-            Console.WriteLine(car.ModelYear + " yılındaki araç silindi");
 
         }
 
@@ -37,9 +35,20 @@ namespace Business.Concrete
             return _carDal.GetAll();
         }
 
+        public List<Car> GetCarsByBrandId(int brandId)
+        {
+            return _carDal.GetAll(c => c.BrandId == brandId).ToList();
+        }
+
+        public List<Car> GetCarsByColorId(int colorId)
+        {
+            return _carDal.GetAll(c=>c.ColorId==colorId).ToList();
+        }
+
         public List<Car> GetCarsById(int carId)
         {
-            return _carDal.GetById(carId);
+            return _carDal.GetAll(c => c.CarId == carId);
+                
 
         }
 

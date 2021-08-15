@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using DataAccess.Abstract;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace Business.Abstract
     {
         List<Car> GetAllCars();
         List<Car> GetCarsById(int carId);
+        List<Car> GetCarsByBrandId(int brandId);
+        List<Car> GetCarsByColorId(int colorId);
+
         void AddCar(Car car);
         void DeleteCar(Car car);
         void UpdateCar(Car car);
