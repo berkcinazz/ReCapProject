@@ -16,25 +16,10 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (ReCapProjectContext context = new ReCapProjectContext())
             {
-                if (entity.Description.Length >=2 )
-                {
-                    if (entity.DailyPrice > 0)
-                    {
-                        var addingCar = context.Entry(entity);
-                        addingCar.State = EntityState.Added;
-                        context.SaveChanges();
-                        Console.WriteLine("Tebrikler, arabanız eklendi");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Günlük fiyatı 0 dan büyük olmalı");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Araba isminiz 2 haneden büyük olmalı.");
-                }
-                
+                 var addingCar = context.Entry(entity);
+                 addingCar.State = EntityState.Added;
+                 context.SaveChanges();
+                 Console.WriteLine("Tebrikler, arabanız eklendi");                
             }
         }
 
