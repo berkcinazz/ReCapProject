@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,11 @@ namespace Business.Concrete
             return _carDal.GetAll();
         }
 
+        public List<CarDetailDto> GetCarDetails(int carId)
+        {
+            return _carDal.CarDetails(carId);
+        }
+
         public List<Car> GetCarsByBrandId(int brandId)
         {
             return _carDal.GetAll(c => c.BrandId == brandId).ToList();
@@ -73,5 +79,6 @@ namespace Business.Concrete
             Console.WriteLine(car.ModelYear + " yılındaki araç güncellendi");
 
         }
+
     }
 }
