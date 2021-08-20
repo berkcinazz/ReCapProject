@@ -12,6 +12,16 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            Rental rental = new Rental();
+            rental.ReturnDate = null;
+            Console.WriteLine(rental.ReturnDate);
+            Console.ReadLine();
+            //ResultTest();
+            //CarTest();
+        }
+
+        private static void ResultTest()
+        {
             Car car = new Car
             {
                 CarId = 1,
@@ -26,10 +36,9 @@ namespace ConsoleUI
             var result = carManagerr.GetCarDetails(1);
             foreach (var item in result.Data)
             {
-                Console.WriteLine("{0}/{1}/{2}",item.BrandName,item.ColorName,item.Description);
+                Console.WriteLine("{0}/{1}/{2}", item.BrandName, item.ColorName, item.Description);
 
             }
-            //CarTest();
         }
 
         private static void CarTest()
