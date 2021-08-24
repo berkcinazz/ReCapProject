@@ -19,43 +19,27 @@ namespace Business.Concrete
         {
             _rentaldal = rentaldal;
         }
-
-        public void Add(Rental entity)
+        public IResult AddRental(Rental rental)
         {
-            if (entity.ReturnDate==null)
+            if (rental.ReturnDate == null)
             {
-                Console.WriteLine(new ErrorResult("Selected car is not available. Because using already."));
+                return new ErrorResult("Selected car is not available. Because using already.");
             }
             else
             {
-                Console.WriteLine(new SuccessResult("Well done. Your rent process working well."));
-                _rentaldal.Add(entity);
+                _rentaldal.Add(rental);
+                return new SuccessResult("Well done. Your rent process working well.");
             }
         }
-
-        public void Delete(Rental entity)
+        public IDataResult<List<Rental>> GetAllRental()
         {
-            throw new NotImplementedException();
+            
+            return new SuccessDataResult<List<Rental>>(_rentaldal.GetAll(),"Başarıyla listelendi");
         }
-
-        public Rental Get(Expression<Func<Rental, bool>> filter)
+        public IDataResult<Rental> GetRentalById(int rentalId)
         {
-            throw new NotImplementedException();
-        }
-
-        public List<Rental> GetAll(Expression<Func<Rental, bool>> filter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Rental GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Rental entity)
-        {
-            throw new NotImplementedException();
+            
+            return new SuccessDataResult<Rental>(_rentaldal.Get(r=>r.Id==rentalId),"Seçtiğiniz kiralama listelenmiştir");
         }
     }
 }

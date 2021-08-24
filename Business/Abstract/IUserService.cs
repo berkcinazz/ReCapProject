@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,12 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IUserService:IEntityRepository<User>
+    public interface IUserService
     {
+        IResult Add(User user);
+        IResult Delete(User user);
+        IDataResult<List<User>> GetUserAll();
+        IDataResult<User> GetUserById(int userId);
+        
     }
 }

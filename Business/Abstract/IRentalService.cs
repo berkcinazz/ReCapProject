@@ -1,4 +1,5 @@
 ﻿using Core.DataAccess;
+using Core.Utilities.Results;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IRentalService:IEntityRepository<Rental>
+    public interface IRentalService
     {
-         
+        IResult AddRental(Rental rental);
+        IDataResult<List<Rental>> GetAllRental();
+        IDataResult<Rental> GetRentalById(int rentalId);
     }
 }

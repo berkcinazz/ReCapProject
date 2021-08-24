@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -13,34 +14,32 @@ namespace Business.Concrete
     public class UserManager : IUserService
     {
         IUserDal _userDal;
-        public void Add(User entity)
+
+        public UserManager(IUserDal userDal)
         {
-            throw new NotImplementedException();
+            _userDal = userDal;
         }
 
-        public void Delete(User entity)
+        public IResult Add(User user)
         {
-            throw new NotImplementedException();
+            _userDal.Add(user);
+            return new SuccessResult("User başarıyla eklendi");
         }
 
-        public User Get(Expression<Func<User, bool>> filter)
+        public IResult Delete(User user)
         {
-            throw new NotImplementedException();
+            _userDal.Delete(user);
+            return new SuccessDataResult<User>("Başarıyla silindi");
         }
 
-        public List<User> GetAll(Expression<Func<User, bool>> filter = null)
+        public IDataResult<List<User>> GetUserAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<User>>(_userDal.GetAll(),"Kullanıcılar başarıyla listelendi");
         }
 
-        public User GetById(int id)
+        public IDataResult<User> GetUserById(int userId)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(User entity)
-        {
-            throw new NotImplementedException();
+            return new SuccessDataResult<User>(_userDal.Get(u=>u.Id==userId),"Seçtiğiniz idye göre listelendi");
         }
     }
 }
