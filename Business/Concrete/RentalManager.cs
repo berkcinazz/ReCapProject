@@ -31,6 +31,8 @@ namespace Business.Concrete
                 return new SuccessResult("Well done. Your rent process working well.");
             }
         }
+
+        
         public IDataResult<List<Rental>> GetAllRental()
         {
             

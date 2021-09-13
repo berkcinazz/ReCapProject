@@ -33,12 +33,12 @@ namespace WebAPI
         {
 
             services.AddControllers();
-            services.AddSingleton<ICarDal, EfCarDal>();
-            services.AddSingleton<ICarService, CarManager>();
-            services.AddSingleton<IUserDal, EfUserDal>();
-            services.AddSingleton<IUserService, UserManager>();
-            services.AddSingleton<IRentalDal, EfRentalDal>();
-            services.AddSingleton<IRentalService, RentalManager>();
+            //services.AddSingleton<ICarDal, EfCarDal>();
+            //services.AddSingleton<ICarService, CarManager>();
+            //services.AddSingleton<IUserDal, EfUserDal>();
+            //services.AddSingleton<IUserService, UserManager>();
+            //services.AddSingleton<IRentalDal, EfRentalDal>();
+            //services.AddSingleton<IRentalService, RentalManager>();
 
             services.AddSwaggerGen(c =>
             {
