@@ -1,5 +1,6 @@
 ﻿using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace Business.Abstract
 {
     public interface ICarImagesService
     {
-        IResult AddImage(CarImage image);
-        IResult DeleteImage(CarImage image);
-        IResult UpdateImage(CarImage image);
+        IResult AddImage(CarImageForAddDto carImageForAddDto);
+        IResult DeleteImage(int carImageId);
+        IResult UpdateImage(CarImageForUpdateDto carImageForUpdateDto);
         IDataResult<List<CarImage>> GetAllImages();
     }
 }

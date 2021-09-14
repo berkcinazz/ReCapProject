@@ -13,18 +13,7 @@ namespace Entities.Concrete
         public int Id { get; set; }
         public int CarId { get; set; }
         public string ImagePath { get; set; }
-        public DateTime Date
-        {
-            get
-            {
-                return (this.dateCreated == default(DateTime))
-                   ? this.dateCreated = DateTime.Now
-                   : this.dateCreated;
-            }
-
-            set { this.dateCreated = value; }
-        }
-        private DateTime dateCreated = default(DateTime);
+        public DateTime Date { get; set; }
 
     }
 }

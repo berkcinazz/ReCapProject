@@ -1,9 +1,12 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Core.Utilities.BusinessRules;
+using Core.Utilities.Helpers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,38 +17,64 @@ namespace Business.Concrete
 {
     public class CarImagesManager : ICarImagesService
     {
-        ICarDal _carDal;
-
-        public CarImagesManager(ICarDal carDal)
+        ICarImagesDal _carImagesDal;
+        public CarImagesManager(ICarImagesDal carImagesDal)
         {
-            _carDal = carDal;
+            _carImagesDal = carImagesDal;
         }
 
-        public IResult AddImage(CarImage carImage)
+        public IResult AddImage(CarImageForAddDto carImageForAddDto)
         {
-            BusinessRules.Run(CheckIfLimitOfCarImage(carImage.CarId));
+            var businessRulesResult = BusinessRules.Run(CheckIfLimitOfCarImage(carImageForAddDto.CarId));
+            if (businessRulesResult != null)
+                return businessRulesResult;
+            CarImage carImage = new CarImage()
+            {
+                CarId = carImageForAddDto.CarId,
+                ImagePath = FileHelper.UploadImage(carImageForAddDto.Image),
+                Date = DateTime.Now
+            };
+            _carImagesDal.Add(carImage);
             return new SuccessResult(Messages.ImagesAdded);
         }
 
-        public IResult DeleteImage(CarImage image)
+
+        public IResult DeleteImage(int carImageId)
         {
-            throw new NotImplementedException();
+            var result = _carImagesDal.Get(c => c.Id == carImageId);
+            if (result == null)
+            {
+                return new ErrorResult(Messages.ImageNotFound);
+            }
+            _carImagesDal.Delete(result);
+            FileHelper.DeleteImage(result.ImagePath);
+            return new SuccessResult(Messages.DeleteImageSuccess);
         }
 
         public IDataResult<List<CarImage>> GetAllImages()
         {
             throw new NotImplementedException();
         }
-
-        public IResult UpdateImage(CarImage image)
+        public IResult UpdateImage(CarImageForUpdateDto carImageForUpdateDto)
         {
-            throw new NotImplementedException();
+            var result = _carImagesDal.Get(c=>c.Id== carImageForUpdateDto.ImageId);
+            if (result==null)
+            {
+                return new ErrorResult(Messages.ImageNotFound);
+            }
+            FileHelper.DeleteImage(result.ImagePath);
+            result.CarId = carImageForUpdateDto.CarId;
+            result.Date = DateTime.Now;
+            result.ImagePath = FileHelper.UploadImage(carImageForUpdateDto.Image);
+            _carImagesDal.Update(result);
+
+            return new SuccessResult(Messages.ImageUpdateSuccessfull);
         }
 
         private IResult CheckIfLimitOfCarImage(int carId)
         {
-            var result = _carDal.GetAll(c=>c.CarId==carId).Count;
-            if (result<=5)
+            var result = _carImagesDal.GetAll(c=>c.CarId==carId).Count;
+            if (result>=5)
             {
                 return new ErrorResult(Messages.CarImageLimitExceeded);
             }
