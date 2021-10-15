@@ -45,7 +45,7 @@ namespace Business.Concrete
             if (result == null)
             {
                 return new ErrorResult(Messages.ImageNotFound);
-            }
+            } 
             _carImagesDal.Delete(result);
             FileHelper.DeleteImage(result.ImagePath);
             return new SuccessResult(Messages.DeleteImageSuccess);
@@ -53,7 +53,8 @@ namespace Business.Concrete
 
         public IDataResult<List<CarImage>> GetAllImages()
         {
-            throw new NotImplementedException();
+            var result = _carImagesDal.GetAll();
+            return new SuccessDataResult<List<CarImage>>(result);
         }
         public IResult UpdateImage(CarImageForUpdateDto carImageForUpdateDto)
         {

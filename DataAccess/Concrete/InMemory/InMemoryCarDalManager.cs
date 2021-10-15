@@ -72,9 +72,6 @@ namespace DataAccess.Concrete.InMemory
             car.Description = updatedCars.Description;
         }
 
-        Car IEntityRepository<Car>.GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

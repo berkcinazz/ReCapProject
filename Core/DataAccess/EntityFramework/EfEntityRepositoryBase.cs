@@ -33,11 +33,11 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> filter)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter=null)
         {
             using (TContext context = new TContext())
             {
-                return context.Set<TEntity>().SingleOrDefault(filter);
+                return context.Set<TEntity>().FirstOrDefault(filter);
             }
         }
 
@@ -51,10 +51,6 @@ namespace Core.DataAccess.EntityFramework
             }
         }
 
-        public TEntity GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Update(TEntity entity)
         {
