@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Caching;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
@@ -47,7 +48,7 @@ namespace Business.Concrete
             _carDal.Delete(car);
             return new SuccessResult("Araç silindi");
         }
-
+        [CacheAspect]
         public IDataResult<List<Car>>GetAllCars()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(),"Tebrikler. Tüm arabaları listelediniz");

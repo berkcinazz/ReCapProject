@@ -1,6 +1,9 @@
 using Business.Abstract;
 using Business.Concrete;
 using Core.DataAccess.EntityFramework;
+using Core.DependencyResolvers;
+using Core.Extensions;
+using Core.Utilities.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
 using DataAccess.Abstract;
@@ -41,6 +44,8 @@ namespace WebAPI
             services.AddCors(options=> {
                 options.AddPolicy("AllowOrigin",builder=>builder.WithOrigins("http://localhost:3000"));
             });
+            services.AddDependencyResolvers(new ICoreModule[] { new CoreModule() });
+
             services.AddSwaggerGen(opt =>
             {
                 opt.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "ReCapProject API", Description = "This is the endpoint UI for RecapCommerce", Version = "v1" });
@@ -84,7 +89,7 @@ namespace WebAPI
                     IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
                 };
             });
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
