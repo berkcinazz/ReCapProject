@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,20 +21,26 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        public IResult AddBrand(Brand brand)
+        public IResult AddBrand(BrandForAddDto brand)
         {
-            _brandDal.Add(brand);
-            return new SuccessResult("Marka Eklendi");
+            Brand addToBrand = new Brand()
+            {
+                BrandName = brand.BrandName
+            };
+            _brandDal.Add(addToBrand);
+            return new SuccessResult(Messages.BrandAdded);
         }
 
         public IDataResult<List<Brand>> GetAllBrand()
         {
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(),"Tüm markalar listelendi");
+            var result = _brandDal.GetAll();
+            return new SuccessDataResult<List<Brand>>(result);
         }
 
         public IDataResult<Brand> GetBrandById(int brandId)
         {
-            return new SuccessDataResult<Brand>(_brandDal.Get(b=>b.BrandId==brandId));
+            var result = _brandDal.Get(b => b.BrandId == brandId);
+            return new SuccessDataResult<Brand>(result);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +22,26 @@ namespace Business.Concrete
             _customerDal = customerDal;
         }
 
-        public IResult AddCustomer(Customer customer)
+        public IResult AddCustomer(CustomerForAddDto customer)
         {
-            _customerDal.Add(customer);
-            return new SuccessResult("Müşteri eklendi");
+            Customer addToCustomer = new Customer (){ 
+            CompanyName=customer.CompanyName,
+            UserId=customer.UserId
+            };
+            _customerDal.Add(addToCustomer);
+            return new SuccessResult(Messages.AddedCustomer);
         }
 
         public IDataResult<List<Customer>> GetAllCustomer()
         {
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
+            var result = _customerDal.GetAll();
+            return new SuccessDataResult<List<Customer>>(result);
         }
 
         public IDataResult<Customer> GetCustomerById(int customerId)
         {
-            return new SuccessDataResult<Customer>(_customerDal.Get(c=>c.Id==customerId));
+            var result = _customerDal.Get(c => c.Id == customerId);
+            return new SuccessDataResult<Customer>(result);
         }
     }
 }

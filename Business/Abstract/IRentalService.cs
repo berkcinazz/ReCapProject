@@ -1,6 +1,7 @@
 ﻿using Core.DataAccess;
 using Core.Utilities.Results;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace Business.Abstract
 {
     public interface IRentalService
     {
-        IResult AddRental(Rental rental);
+        IResult AddRental(RentalForAddDto rental);
         IDataResult<List<Rental>> GetAllRental();
         IDataResult<Rental> GetRentalById(int rentalId);
+        IDataResult<List<RentalForListingDto>> GetAllRentalsDetail();
     }
 }

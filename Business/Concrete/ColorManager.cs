@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,20 +21,25 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public IResult AddColor(Color color)
+        public IResult AddColor(ColorForAddDto color)
         {
-            _colorDal.Add(color);
-            return new SuccessResult("Renk eklendi");
+            Color addToColor = new Color() { 
+            ColorName=color.ColorName
+            };
+            _colorDal.Add(addToColor);
+            return new SuccessResult(Messages.ColorAdded);
         }
 
         public IDataResult<List<Color>> GetAllColor()
         {
-            return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
+            var result = _colorDal.GetAll();
+            return new SuccessDataResult<List<Color>>(result);
         }
 
         public IDataResult<Color> GetColorById(int colorId)
         {
-            return new SuccessDataResult<Color>(_colorDal.Get(c=>c.ColorId==colorId)); ;
+            var result = _colorDal.Get(c => c.ColorId == colorId);
+            return new SuccessDataResult<Color>(result); ;
         }
     }
 }

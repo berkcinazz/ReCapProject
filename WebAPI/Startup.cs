@@ -40,6 +40,7 @@ namespace WebAPI
         {
 
             services.AddControllers();
+            services.AddCors();
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
             services.AddCors(options=> {
                 options.AddPolicy("AllowOrigin",builder=>builder.WithOrigins("http://localhost:3000"));
@@ -104,7 +105,7 @@ namespace WebAPI
                     opt.InjectStylesheet("/swagger-ui/SwaggerDark.css");
                 });
             }
-            app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:5353").AllowAnyHeader());
             app.UseHttpsRedirection();
             app.UseRouting();
 

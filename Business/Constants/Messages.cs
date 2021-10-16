@@ -22,5 +22,13 @@ namespace Business.Constants
         public static string AccessTokenCreated = "Access token başarıyla oluşturuldu.";
         public static string UserNotFoundWithThisMail = "Bu maile sahip bir kullanıcı bulunamadı.";
         public static string SuccessfulLogin = "Giriş başarılı.";
+        public static string AddedCustomer = "Müşteri eklendi.";
+        public static string CarIsNotAvailable = "Araç müsait değil.";
+        public static string RentalAdded = "Kiralama başarılı.";
+        public static string BrandAdded = "Marka eklendi.";
+        public static string CarDeleted ="Araç silindi.";
+        public static string ColorAdded ="Renk eklendi.";
+
+        public static string CarNotFound { get; internal set; }
     }
 }

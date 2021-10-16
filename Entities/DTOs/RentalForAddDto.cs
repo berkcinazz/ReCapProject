@@ -1,5 +1,4 @@
 ﻿using Core.Entities;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class CarImageForUpdateDto:IDto
+    public class RentalForAddDto:IDto
     {
         public int CarId { get; set; }
-        public int ImageId { get; set; }
-        public IFormFile Image { get; set; }
+        public int CustomerId { get; set; }
+        public DateTime RentDate { get; set; }
+        public Nullable<DateTime> ReturnDate { get; set; } = null;
     }
 }

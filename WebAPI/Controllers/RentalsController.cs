@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,6 +28,24 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+        [HttpGet("getallrentaldetails")]
+        public IActionResult GetallRentalDetails()
+        {
+            var result = _rentalService.GetAllRentalsDetail();
+            return StatusCode(result.Success ? 200 : 400,result);
+        }
+        [HttpGet("getrentalbyid")]
+        public IActionResult GetRentalById(int rentalId)
+        {
+            var result = _rentalService.GetRentalById(rentalId);
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
+        [HttpPost]
+        public IActionResult AddRental(RentalForAddDto rental)
+        {
+            var result = _rentalService.AddRental(rental);
+            return StatusCode(result.Success ? 200 : 400, result);
         }
     }
 }

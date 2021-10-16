@@ -23,13 +23,21 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public IResult AddCar(Car car)
+        public IResult AddCar(CarForAddDto car)
         {
+            Car carToAdd = new Car()
+            {
+                BrandId = car.BrandId,
+                ColorId = car.ColorId,
+                DailyPrice = car.DailyPrice,
+                Description = car.Description,
+                ModelYear = car.ModelYear
+            };
             if (car.Description.Length >= 2)
             {
                 if (car.DailyPrice > 0)
                 {
-                    _carDal.Add(car);
+                    _carDal.Add(carToAdd);
                     return new SuccessResult(Messages.ItemAdded);
                 }
                 else
@@ -43,40 +51,61 @@ namespace Business.Concrete
             }
         }
 
-        public IResult DeleteCar(Car car)
+        public IResult DeleteCar(int carId)
         {
-            _carDal.Delete(car);
-            return new SuccessResult("Araç silindi");
+            var result = _carDal.Get(c=>c.CarId==carId);
+            if (result == null) return new ErrorResult(Messages.CarNotFound);
+            _carDal.Delete(result);
+            return new SuccessResult(Messages.CarDeleted);
         }
         [CacheAspect]
         public IDataResult<List<Car>>GetAllCars()
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),"Tebrikler. Tüm arabaları listelediniz");
+            var result = _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(result);
+        }
+        [CacheAspect]
+        public IDataResult<List<CarDetailDto>> GetAllCarsDetail()
+        {
+            var result = _carDal.GetAllCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(result);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails(int carId)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.CarDetails(carId),"Tebrikler. Seçmiş olduğunuz arabanın detaylarını listelediniz");
+            var result = _carDal.CarDetails(carId);
+            return new SuccessDataResult<List<CarDetailDto>>(result);
         }
 
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId).ToList());
+            var result = _carDal.GetAll(c => c.BrandId == brandId).ToList();
+            return new SuccessDataResult<List<Car>>(result);
         }
 
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c=>c.ColorId==colorId).ToList());
+            var result = _carDal.GetAll(c => c.ColorId == colorId).ToList();
+            return new SuccessDataResult<List<Car>>(result);
         }
 
         public IDataResult<Car> GetCarsById(int carId)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId),"");
+            var result = _carDal.Get(c => c.CarId == carId);
+            return new SuccessDataResult<Car>(result);
         }
 
         public IResult UpdateCar(Car car)
         {
-            _carDal.Update(car);
+            var result = _carDal.Get(c=>c.CarId==car.CarId);
+            if (result == null) return new ErrorResult(Messages.CarNotFound);
+            result.CarId = car.CarId;
+            result.ColorId = car.ColorId;
+            result.Description = car.Description;
+            result.DailyPrice = car.DailyPrice;
+            result.Description = car.Description;
+            result.BrandId = car.BrandId;
+            _carDal.Update(result);
             return new SuccessResult(car.ModelYear + " yılındaki araç güncellendi");
 
         }

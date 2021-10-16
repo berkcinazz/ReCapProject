@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,36 +22,53 @@ namespace WebAPI.Controllers
             _carService = carService;
         }
         [HttpGet("getall")]
-        [Authorize(Roles = "Car.List")]
+        //[Authorize(Roles = "Car.List")]
         public IActionResult GetAll()
         {
             var result = _carService.GetAllCars();
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
+        [HttpGet("getallcarsdetail")]
+        public IActionResult GetAllCarsDetail()
+        {
+            var result = _carService.GetAllCarsDetail();
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
+        [HttpGet("getcarsbycolorid")]
+        public IActionResult GetCarsByColorId(int colorId)
+        {
+            var result = _carService.GetCarsByColorId(colorId);
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
+        [HttpGet("getcarsbybrandid")]
+        public IActionResult GetCarsByBrandId(int brandId)
+        {
+            var result = _carService.GetCarsByBrandId(brandId);
+            return StatusCode(result.Success ? 200 : 400, result);
         }
         [HttpGet("getcarbyid")]
         public IActionResult GetCarById(int carId)
         {
             var result = _carService.GetCarsById(carId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            return StatusCode(result.Success ? 200 : 400, result);
         }
-
-        [HttpPost("update")]
-        public IActionResult Update(Car car)
+        [HttpPut]
+        public IActionResult UpdateCar(Car car)
         {
             var result = _carService.UpdateCar(car);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
+        [HttpDelete]
+        public IActionResult DeleteCar(int carId)
+        {
+            var result = _carService.DeleteCar(carId);
+            return StatusCode(result.Success ? 200 : 400, result);
+        }
+        [HttpPost]
+        public IActionResult AddCar(CarForAddDto car)
+        {
+            var result = _carService.AddCar(car);
+            return StatusCode(result.Success ? 200 : 400, result);
         }
     }
 }
